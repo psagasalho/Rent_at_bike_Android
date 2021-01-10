@@ -1,18 +1,20 @@
 package pt.rent_at_bike.app;
 
-import com.google.android.gms.maps.model.LatLng;
+import pt.rent_at_bike.app.LatLon;
 
-public class Bike {
+import java.io.Serializable;
+
+public class Bike implements Serializable {
 
     private int id;
     private String name;
     private String profileImg;
     private String typebike;
     private int price;
-    private LatLng loc;
+    private LatLon loc;
     private boolean available;
 
-    public Bike(int n_id, String n_name, String n_profileImg, String n_typebike, int n_price, LatLng n_loc, boolean n_available) {
+    public Bike(int n_id, String n_name, String n_profileImg, String n_typebike, int n_price, LatLon n_loc, boolean n_available) {
         id = n_id;
         name = n_name;
         profileImg = n_profileImg;
@@ -42,7 +44,7 @@ public class Bike {
         return price;
     }
 
-    public LatLng getLoc() {
+    public LatLon getLoc() {
         return loc;
     }
 

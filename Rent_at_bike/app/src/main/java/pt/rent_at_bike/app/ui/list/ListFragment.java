@@ -22,6 +22,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import pt.rent_at_bike.app.Bike;
 import pt.rent_at_bike.app.BikeAdapter;
+import pt.rent_at_bike.app.LatLon;
 import pt.rent_at_bike.app.R;
 
 public class ListFragment extends Fragment {
@@ -39,10 +40,10 @@ public class ListFragment extends Fragment {
         RecyclerView rvBikes = (RecyclerView) root.findViewById(R.id.rvBikes);
 
         // Initialize contacts
-        bikes.add(new Bike(1, "Bike 1", "cannondale_caadx", "Electric", 20, new LatLng(0,0), true));
-        bikes.add(new Bike(2, "Bike 2", "cannondale_caadx", "Electric", 20, new LatLng(0,0), true));
-        bikes.add(new Bike(3, "Bike 3", "btwin_hoptown", "Electric", 20, new LatLng(0,0), true));
-        bikes.add(new Bike(4, "Bike 4", "cannondale_caadx", "Electric", 20, new LatLng(0,0), true));
+        bikes.add(new Bike(1, "Bike 1", "rockrider_e_st", "Electric", 20, new LatLon(0,0), true));
+        bikes.add(new Bike(2, "Bike 2", "cannondale_caadx", "Electric", 20, new LatLon(0,0), true));
+        bikes.add(new Bike(3, "Bike 3", "btwin_hoptown", "Electric", 20, new LatLon(0,0), true));
+        bikes.add(new Bike(4, "Bike 4", "specialized_tarmac", "Electric", 20, new LatLon(0,0), true));
         // Create adapter passing in the sample user data
         BikeAdapter adapter = new BikeAdapter(bikes);
         // Attach the adapter to the recyclerview to populate items

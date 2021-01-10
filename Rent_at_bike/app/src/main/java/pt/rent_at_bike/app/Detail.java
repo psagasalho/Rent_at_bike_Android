@@ -12,6 +12,12 @@ public class Detail {
         name = n_name;
     }
 
+    public Detail(String n_icon, String n_name, String n_text) {
+        icon = n_icon;
+        name = n_name;
+        text = n_text;
+    }
+
     public String getIcon() {
         return icon;
     }
