@@ -77,7 +77,11 @@ public class DetailAdapter_2 extends
         nDetail.setText(detail.getName());
 
         TextView tDetail = holder.textDetail;
-        tDetail.setText(detail.getText());
+        if (detail.getName().equals("Price")) {
+            tDetail.setText(detail.getText() + "€ /day");
+        } else {
+            tDetail.setText(detail.getText());
+        }
     }
 
     @Override

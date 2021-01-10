@@ -40,10 +40,10 @@ public class ListFragment extends Fragment {
         RecyclerView rvBikes = (RecyclerView) root.findViewById(R.id.rvBikes);
 
         // Initialize contacts
-        bikes.add(new Bike(1, "Bike 1", "rockrider_e_st", "Electric", 20, new LatLon(0,0), true));
-        bikes.add(new Bike(2, "Bike 2", "cannondale_caadx", "Electric", 20, new LatLon(0,0), true));
-        bikes.add(new Bike(3, "Bike 3", "btwin_hoptown", "Electric", 20, new LatLon(0,0), true));
-        bikes.add(new Bike(4, "Bike 4", "specialized_tarmac", "Electric", 20, new LatLon(0,0), true));
+        bikes.add(new Bike(1, "Bike 1", "rockrider_e_st", "Electric", 20, new LatLon(41.15716181008212, -8.659623235501876), true));
+        bikes.add(new Bike(2, "Bike 2", "cannondale_caadx", "Electric", 20, new LatLon(41.14152128955986, -8.637350172004071), true));
+        bikes.add(new Bike(3, "Bike 3", "btwin_hoptown", "Electric", 20, new LatLon(41.15716181008212, -8.659623235501876), true));
+        bikes.add(new Bike(4, "Bike 4", "specialized_tarmac", "Electric", 20, new LatLon(41.14152128955986, -8.637350172004071), true));
         // Create adapter passing in the sample user data
         BikeAdapter adapter = new BikeAdapter(bikes);
         // Attach the adapter to the recyclerview to populate items

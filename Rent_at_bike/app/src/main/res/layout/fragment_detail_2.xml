@@ -26,7 +26,7 @@
 
     <TextView
         android:id="@+id/textDetail2"
-        android:layout_width="115dp"
+        android:layout_width="160dp"
         android:layout_height="27dp"
         android:layout_marginEnd="30dp"
         android:layout_weight="1"

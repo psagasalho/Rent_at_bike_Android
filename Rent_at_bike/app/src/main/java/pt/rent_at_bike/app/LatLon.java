@@ -10,4 +10,12 @@ public class LatLon implements Serializable {
         this.lat = lat;
         this.lon = lon;
     }
+
+    public double getLat() {
+        return lat;
+    }
+
+    public double getLon() {
+        return lon;
+    }
 }
