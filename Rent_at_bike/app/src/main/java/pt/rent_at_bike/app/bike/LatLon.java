@@ -1,4 +1,4 @@
-package pt.rent_at_bike.app;
+package pt.rent_at_bike.app.bike;
 
 import java.io.Serializable;
 

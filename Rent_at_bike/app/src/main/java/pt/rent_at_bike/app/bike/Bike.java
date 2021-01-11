@@ -1,6 +1,4 @@
-package pt.rent_at_bike.app;
-
-import pt.rent_at_bike.app.LatLon;
+package pt.rent_at_bike.app.bike;
 
 import java.io.Serializable;
 

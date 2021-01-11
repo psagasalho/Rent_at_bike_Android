@@ -1,4 +1,4 @@
-package pt.rent_at_bike.app;
+package pt.rent_at_bike.app.detail;
 
 
 public class Detail {

@@ -20,6 +20,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import pt.rent_at_bike.app.bike.Bike;
+import pt.rent_at_bike.app.bike.LatLon;
+import pt.rent_at_bike.app.detail.Detail;
+import pt.rent_at_bike.app.detail.DetailAdapter_2;
 
 public class BikeActivity extends AppCompatActivity {
 

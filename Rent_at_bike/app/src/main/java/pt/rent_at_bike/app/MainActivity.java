@@ -11,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.NavigationUI;
+import pt.rent_at_bike.app.bike.Bike;
 
 public class MainActivity extends AppCompatActivity {
 
