@@ -2,6 +2,8 @@ package pt.rent_at_bike.app;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.ImageView;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -23,6 +25,16 @@ public class MainActivity extends AppCompatActivity {
         // menu should be considered as top level destinations.
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupWithNavController(navView, navController);
+
+        ImageView imgFavorite = (ImageView) findViewById(R.id.login);
+        imgFavorite.setClickable(true);
+        imgFavorite.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
     public void showBike(Bike bike) {

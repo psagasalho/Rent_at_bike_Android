@@ -9,7 +9,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".BikeActivity"></activity>
+        <activity android:name=".LoginActivity"></activity>
+        <activity android:name=".BikeActivity" />
         <!--
                Set to true if your app is Standalone, that is, it does not require the handheld
                app to run.
@@ -27,7 +28,6 @@
         <meta-data
             android:name="com.google.android.maps.v2.API_KEY"
             android:value="AIzaSyAeCgTW-V8qTKGrWdd48M_U9SO8GOPnwTs" />
-
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
@@ -36,19 +36,17 @@
             android:value="true" />
 
         <uses-library android:name="com.google.android.maps" />
-
         <uses-library
             android:name="org.apache.http.legacy"
             android:required="false" />
     </application>
 
     <uses-feature android:name="android.hardware.type.watch" />
-
-    <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-
     <uses-permission android:name="android.permission.WAKE_LOCK" />
+
+    <uses-permission android:name="android.permission.INTERNET" />
 
 </manifest>

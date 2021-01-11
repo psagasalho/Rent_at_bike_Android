@@ -5,6 +5,7 @@ import android.location.Address;
 import android.location.Geocoder;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -75,5 +76,15 @@ public class BikeActivity extends AppCompatActivity {
         rvDetails.setLayoutManager(new LinearLayoutManager(this));
         rvDetails.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
         // That's all!
+
+        ImageView imgFavorite = (ImageView) findViewById(R.id.login);
+        imgFavorite.setClickable(true);
+        imgFavorite.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(BikeActivity.this, LoginActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 }
