@@ -7,9 +7,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-
-
 import java.util.List;
 
 import androidx.annotation.NonNull;
@@ -27,6 +24,7 @@ public class DetailAdapter extends
         // Your holder should contain a member variable
         // for any view that will be set as you render a row
         public ImageView iconDetail;
+        public TextView nameDetail;
         public TextView textDetail;
 
 
@@ -37,8 +35,9 @@ public class DetailAdapter extends
             // to access the context from any ViewHolder instance.
             super(itemView);
 
-            iconDetail = (ImageView) itemView.findViewById(R.id.iconDetail);
-            textDetail = (TextView) itemView.findViewById(R.id.textDetail);
+            iconDetail = (ImageView) itemView.findViewById(R.id.iconDetail2);
+            nameDetail = (TextView) itemView.findViewById(R.id.nameDetail2);
+            textDetail = (TextView) itemView.findViewById(R.id.textDetail2);
         }
     }
 
@@ -59,7 +58,7 @@ public class DetailAdapter extends
         LayoutInflater inflater = LayoutInflater.from(context);
 
         // Inflate the custom layout
-        View detailView = inflater.inflate(R.layout.fragment_detail, parent, false);
+        View detailView = inflater.inflate(R.layout.fragment_detail_2, parent, false);
 
         // Return a new holder instance
         ViewHolder viewHolder = new ViewHolder(detailView);
@@ -75,8 +74,15 @@ public class DetailAdapter extends
         ImageView iDetail = holder.iconDetail;
         iDetail.setImageDrawable(context.getResources().getDrawable(context.getResources().getIdentifier(detail.getIcon(), "drawable", context.getPackageName())));
 
+        TextView nDetail = holder.nameDetail;
+        nDetail.setText(detail.getName());
+
         TextView tDetail = holder.textDetail;
-        tDetail.setHint(detail.getName());
+        if (detail.getName().equals("Price")) {
+            tDetail.setText(detail.getText() + "€ /day");
+        } else {
+            tDetail.setText(detail.getText());
+        }
     }
 
     @Override

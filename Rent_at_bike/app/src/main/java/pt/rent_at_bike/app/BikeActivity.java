@@ -23,7 +23,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import pt.rent_at_bike.app.bike.Bike;
 import pt.rent_at_bike.app.bike.LatLon;
 import pt.rent_at_bike.app.detail.Detail;
-import pt.rent_at_bike.app.detail.DetailAdapter_2;
+import pt.rent_at_bike.app.detail.DetailAdapter;
 
 public class BikeActivity extends AppCompatActivity {
 
@@ -60,8 +60,8 @@ public class BikeActivity extends AppCompatActivity {
 
         Log.v("LOC",addresses.get(0).toString());
         // Initialize contacts
-        details.add(new Detail("ic_add","ID", Integer.toString(bike.getId())));
-        details.add(new Detail("ic_add","Price", Integer.toString(bike.getPrice())));
+        details.add(new Detail("ic_add","ID", Long.toString(bike.getId())));
+        details.add(new Detail("ic_add","Price", Long.toString(bike.getPrice())));
         details.add(new Detail("ic_add","Location", cityName));
         details.add(new Detail("ic_add","Category", bike.getTypebike()));
         details.add(new Detail("ic_add","Start Day", ""));
@@ -73,7 +73,7 @@ public class BikeActivity extends AppCompatActivity {
         totalBike.setText("Total: 0€");
 
         // Create adapter passing in the sample user data
-        DetailAdapter_2 adapter = new DetailAdapter_2(details);
+        DetailAdapter adapter = new DetailAdapter(details);
         // Attach the adapter to the recyclerview to populate items
         rvDetails.setAdapter(adapter);
         // Set layout manager to position the items

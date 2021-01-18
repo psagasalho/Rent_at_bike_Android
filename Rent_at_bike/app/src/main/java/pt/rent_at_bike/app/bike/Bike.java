@@ -4,15 +4,15 @@ import java.io.Serializable;
 
 public class Bike implements Serializable {
 
-    private int id;
+    private long id;
     private String name;
     private String profileImg;
     private String typebike;
-    private int price;
+    private long price;
     private LatLon loc;
     private boolean available;
 
-    public Bike(int n_id, String n_name, String n_profileImg, String n_typebike, int n_price, LatLon n_loc, boolean n_available) {
+    public Bike(long n_id, String n_name, String n_profileImg, String n_typebike, long n_price, LatLon n_loc, boolean n_available) {
         id = n_id;
         name = n_name;
         profileImg = n_profileImg;
@@ -22,7 +22,7 @@ public class Bike implements Serializable {
         available = n_available;
     }
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
@@ -38,7 +38,7 @@ public class Bike implements Serializable {
         return typebike;
     }
 
-    public int getPrice() {
+    public long getPrice() {
         return price;
     }
 

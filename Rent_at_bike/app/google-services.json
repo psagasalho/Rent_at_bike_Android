@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "16463000223",
+    "firebase_url": "https://rent-at-bike.firebaseio.com",
+    "project_id": "rent-at-bike",
+    "storage_bucket": "rent-at-bike.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:16463000223:android:9632eecd3cae7901e028aa",
+        "android_client_info": {
+          "package_name": "pt.rent_at_bike.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "16463000223-ped03hh55c9nvvaj7uprkcsbk34v4tqm.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAULHweyvZYdgCLAZfFTNlg7bj6XIlR7Fo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "16463000223-ped03hh55c9nvvaj7uprkcsbk34v4tqm.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "16463000223-gm8hjabcedq5mu341qpk85n13mjlb9e8.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.rentAtBike"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

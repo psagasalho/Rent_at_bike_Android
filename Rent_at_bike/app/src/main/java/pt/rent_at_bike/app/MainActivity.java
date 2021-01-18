@@ -5,12 +5,14 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 
-import com.google.android.material.bottomnavigation.BottomNavigationView;
-
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.NavigationUI;
+
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.firebase.auth.FirebaseAuth;
+
 import pt.rent_at_bike.app.bike.Bike;
 
 public class MainActivity extends AppCompatActivity {
@@ -28,14 +30,28 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupWithNavController(navView, navController);
 
         ImageView imgFavorite = (ImageView) findViewById(R.id.login);
-        imgFavorite.setClickable(true);
-        imgFavorite.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, LoginActivity.class);
-                startActivity(intent);
-            }
-        });
+
+        if (FirebaseAuth.getInstance().getCurrentUser() != null) {
+            imgFavorite.setImageResource(R.drawable.profilegreen);
+            imgFavorite.setClickable(true);
+            imgFavorite.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(MainActivity.this, ProfileActivity.class);
+                    startActivity(intent);
+                }
+            });
+        } else {
+            imgFavorite.setImageResource(R.drawable.profilered);
+            imgFavorite.setClickable(true);
+            imgFavorite.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+                    startActivity(intent);
+                }
+            });
+        }
     }
 
     public void showBike(Bike bike) {

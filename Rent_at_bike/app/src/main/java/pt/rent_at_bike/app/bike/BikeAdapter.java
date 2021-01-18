@@ -1,6 +1,7 @@
 package pt.rent_at_bike.app.bike;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +14,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import java.util.List;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 import pt.rent_at_bike.app.MainActivity;
 import pt.rent_at_bike.app.R;
@@ -77,12 +79,21 @@ public class BikeAdapter extends
 
         // Set item views based on your views and data model
         ImageView iBike = holder.imageBike;
-        iBike.setImageDrawable(context.getResources().getDrawable(context.getResources().getIdentifier(bike.getProfileImg(), "drawable", context.getPackageName())));
+      /*  Log.e("BikeAdapter", " resource identifier : profile image ::   "
+                + bike.getProfileImg()  + "and ID :: " +
+                context.getResources().getIdentifier(bike.getProfileImg() ,
+                "drawable",
+                context.getPackageName())    );*/
+
+//iBike.setImageResource(R.drawable.cannondale_caadx);
+        iBike.setImageDrawable(ContextCompat.getDrawable(context, context.getResources().getIdentifier(bike.getProfileImg(),
+                "drawable",
+                context.getPackageName())));
 
         TextView nBike = holder.nameBike;
         nBike.setText(bike.getName());
         TextView dBike = holder.detailsBike;
-        dBike.setText("€"+Integer.toString(bike.getPrice())+"/h - "+ bike.getTypebike());
+        dBike.setText("€"+Long.toString(bike.getPrice())+"/h - "+ bike.getTypebike());
 
         FloatingActionButton bBike = holder.enterBike;
         bBike.setOnClickListener(new View.OnClickListener() {

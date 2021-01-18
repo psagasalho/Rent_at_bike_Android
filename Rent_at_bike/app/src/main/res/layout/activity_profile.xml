@@ -54,28 +54,15 @@
         app:layout_constraintTop_toBottomOf="@+id/textView" />
 
     <Button
-        android:id="@+id/loginEnter"
+        android:id="@+id/logoutEnter"
         android:layout_width="168dp"
         android:layout_height="52dp"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="52dp"
         android:background="@color/blue"
-        android:text="Login"
+        android:text="Logout"
         android:textColor="@android:color/white"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.502"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/password" />
-
-    <EditText
-        android:id="@+id/password"
-        android:layout_width="250dp"
-        android:layout_height="45dp"
-        android:layout_marginTop="20dp"
-        android:ems="10"
-        android:hint="Password"
-        android:inputType="textPassword"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.503"
+        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/username" />
 
@@ -85,7 +72,7 @@
         android:layout_height="38dp"
         android:layout_marginTop="20dp"
         android:gravity="center"
-        android:text="LOGIN"
+        android:text="Profile Page"
         android:textColor="@android:color/black"
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
