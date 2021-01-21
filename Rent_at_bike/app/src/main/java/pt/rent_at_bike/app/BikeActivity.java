@@ -12,7 +12,10 @@ import android.widget.TextView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -28,6 +31,37 @@ import pt.rent_at_bike.app.detail.DetailAdapter;
 public class BikeActivity extends AppCompatActivity {
 
     ArrayList<Detail> details = new ArrayList<>();
+    public RecyclerView rvDetails;
+    public DetailAdapter adapter;
+
+    public void setDetails(ArrayList<Detail> details) {
+        this.details = details;
+    }
+
+    public ArrayList<Detail> getDetails() {
+        return details;
+    }
+
+    LocalDate localDate = LocalDate.now();
+
+    public LocalDate start = localDate;
+    public LocalDate stop = localDate;
+
+    public void setStart(LocalDate start) {
+        this.start = start;
+    }
+
+    public void setStop(LocalDate stop) {
+        this.stop = stop;
+    }
+
+    public LocalDate getStart() {
+        return start;
+    }
+
+    public LocalDate getStop() {
+        return stop;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,7 +72,7 @@ public class BikeActivity extends AppCompatActivity {
         Intent intent = getIntent();
         Bike bike = (Bike) intent.getSerializableExtra(MainActivity.EXTRA_MESSAGE);
 
-        RecyclerView rvDetails = (RecyclerView) findViewById(R.id.recyclerView);
+        rvDetails = (RecyclerView) findViewById(R.id.recyclerView);
         ImageView imageBike = (ImageView) findViewById(R.id.imageBike);
         TextView nameBike = (TextView) findViewById(R.id.nameBike);
         TextView totalBike = (TextView) findViewById(R.id.totalBike);
@@ -73,7 +107,7 @@ public class BikeActivity extends AppCompatActivity {
         totalBike.setText("Total: 0€");
 
         // Create adapter passing in the sample user data
-        DetailAdapter adapter = new DetailAdapter(details);
+        adapter = new DetailAdapter(details);
         // Attach the adapter to the recyclerview to populate items
         rvDetails.setAdapter(adapter);
         // Set layout manager to position the items
@@ -91,4 +125,5 @@ public class BikeActivity extends AppCompatActivity {
             }
         });
     }
+
 }

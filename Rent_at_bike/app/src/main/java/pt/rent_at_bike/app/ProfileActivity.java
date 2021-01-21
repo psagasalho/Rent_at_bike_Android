@@ -29,6 +29,9 @@ public class ProfileActivity extends AppCompatActivity {
 
         mAuth = FirebaseAuth.getInstance();
 
+        email.setText(mAuth.getCurrentUser().getEmail());
+        email.setFocusable(false);
+
         logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

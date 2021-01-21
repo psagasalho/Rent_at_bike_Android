@@ -6,11 +6,21 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
+import pt.rent_at_bike.app.BikeActivity;
+import pt.rent_at_bike.app.DatePickerDialogClass;
+import pt.rent_at_bike.app.LoginActivity;
+import pt.rent_at_bike.app.MainActivity;
 import pt.rent_at_bike.app.R;
 
 // Create the basic adapter extending from RecyclerView.Adapter
@@ -77,12 +87,37 @@ public class DetailAdapter extends
         TextView nDetail = holder.nameDetail;
         nDetail.setText(detail.getName());
 
-        TextView tDetail = holder.textDetail;
+        final LocalDate start = ((BikeActivity) context).getStart();
+        final LocalDate stop = ((BikeActivity) context).getStop();
+
+        final TextView tDetail = holder.textDetail;
         if (detail.getName().equals("Price")) {
             tDetail.setText(detail.getText() + "€ /day");
-        } else {
+        } else if (detail.getName().equals("Start Day")) {
+            tDetail.setText(start.toString());
+            tDetail.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    DialogFragment dialogfragment = new DatePickerDialogClass(start, true);
+                    dialogfragment.show(((BikeActivity) context).getSupportFragmentManager(), "Date Picker Dialog");
+                }
+            });
+        } else if (detail.getName().equals("Stop Day")) {
+            tDetail.setText(stop.toString());
+            tDetail.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    DialogFragment dialogfragment = new DatePickerDialogClass(stop, false);
+                    dialogfragment.show(((BikeActivity) context).getSupportFragmentManager(), "Date Picker Dialog");
+                }
+            });
+        }else {
             tDetail.setText(detail.getText());
         }
+    }
+
+    public Date date() {
+        return new Date();
     }
 
     @Override
@@ -90,3 +125,5 @@ public class DetailAdapter extends
         return mDetails.size();
     }
 }
+
+
