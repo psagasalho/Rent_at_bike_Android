@@ -1,6 +1,7 @@
 package pt.rent_at_bike.app;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.location.Address;
 import android.location.Geocoder;
 import android.os.Bundle;
@@ -10,15 +11,19 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.zxing.WriterException;
 
 import java.io.IOException;
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
+import androidmads.library.qrgenearator.QRGContents;
+import androidmads.library.qrgenearator.QRGEncoder;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -33,6 +38,7 @@ public class BikeActivity extends AppCompatActivity {
     ArrayList<Detail> details = new ArrayList<>();
     public RecyclerView rvDetails;
     public DetailAdapter adapter;
+    public TextView totalBike;
 
     public void setDetails(ArrayList<Detail> details) {
         this.details = details;
@@ -45,7 +51,8 @@ public class BikeActivity extends AppCompatActivity {
     LocalDate localDate = LocalDate.now();
 
     public LocalDate start = localDate;
-    public LocalDate stop = localDate;
+    public LocalDate stop = localDate.plusDays(1);
+    public long price;
 
     public void setStart(LocalDate start) {
         this.start = start;
@@ -75,7 +82,7 @@ public class BikeActivity extends AppCompatActivity {
         rvDetails = (RecyclerView) findViewById(R.id.recyclerView);
         ImageView imageBike = (ImageView) findViewById(R.id.imageBike);
         TextView nameBike = (TextView) findViewById(R.id.nameBike);
-        TextView totalBike = (TextView) findViewById(R.id.totalBike);
+        totalBike = (TextView) findViewById(R.id.totalBike);
         FloatingActionButton buyBike = (FloatingActionButton) findViewById(R.id.buy);
 
         LatLon loc = bike.getLoc();
@@ -94,17 +101,19 @@ public class BikeActivity extends AppCompatActivity {
 
         Log.v("LOC",addresses.get(0).toString());
         // Initialize contacts
-        details.add(new Detail("ic_add","ID", Long.toString(bike.getId())));
-        details.add(new Detail("ic_add","Price", Long.toString(bike.getPrice())));
-        details.add(new Detail("ic_add","Location", cityName));
-        details.add(new Detail("ic_add","Category", bike.getTypebike()));
-        details.add(new Detail("ic_add","Start Day", ""));
-        details.add(new Detail("ic_add","Stop Day", ""));
+        details.add(new Detail("ic_info","ID", Long.toString(bike.getId())));
+        details.add(new Detail("ic_money","Price", Long.toString(bike.getPrice())));
+        details.add(new Detail("ic_location","Location", cityName));
+        details.add(new Detail("ic_category","Category", bike.getTypebike()));
+        details.add(new Detail("ic_time","Start Day", ""));
+        details.add(new Detail("ic_time_2","Stop Day", ""));
 
         imageBike.setImageDrawable(getResources().getDrawable(getResources().getIdentifier(bike.getProfileImg(), "drawable", getPackageName())));
 
+        price = bike.getPrice();
+        long days = ChronoUnit.DAYS.between(start, stop);
         nameBike.setText(bike.getName());
-        totalBike.setText("Total: 0€");
+        totalBike.setText("Total: "+ days*bike.getPrice() +"€");
 
         // Create adapter passing in the sample user data
         adapter = new DetailAdapter(details);
@@ -124,6 +133,17 @@ public class BikeActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+    }
+
+    public Bitmap getQRcode(int data) {
+
+        Bitmap bitmap = Bitmap.createBitmap(150,150, Bitmap.Config.ARGB_8888);
+        QRGEncoder qrgEncoder = new QRGEncoder(Integer.toString(data), null, QRGContents.Type.TEXT, 150);
+        try {
+            // Getting QR-Code as Bitmap
+            bitmap = qrgEncoder.encodeAsBitmap();
+        } catch (WriterException e) {}
+        return bitmap;
     }
 
 }

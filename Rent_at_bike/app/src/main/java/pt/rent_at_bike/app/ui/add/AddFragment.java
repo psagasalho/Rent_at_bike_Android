@@ -34,11 +34,11 @@ public class AddFragment extends Fragment {
         Button buttonAdd = (Button) root.findViewById(R.id.buttonAdd);
 
         // Initialize contacts
-        details.add(new Detail("ic_add","Name"));
-        details.add(new Detail("ic_add","Type"));
-        details.add(new Detail("ic_add","€ /Day"));
-        details.add(new Detail("ic_add","Lat"));
-        details.add(new Detail("ic_add","Lon"));
+        details.add(new Detail("ic_info","Name"));
+        details.add(new Detail("ic_category","Type"));
+        details.add(new Detail("ic_money","€ /Day"));
+        details.add(new Detail("ic_location","Lat"));
+        details.add(new Detail("ic_location","Lon"));
 
         imageBike.setImageDrawable(getResources().getDrawable(R.drawable.btwin_hoptown));
 
