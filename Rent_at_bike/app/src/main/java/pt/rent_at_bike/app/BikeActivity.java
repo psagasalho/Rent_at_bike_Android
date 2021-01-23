@@ -1,11 +1,13 @@
 package pt.rent_at_bike.app;
 
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.location.Address;
 import android.location.Geocoder;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -77,13 +79,28 @@ public class BikeActivity extends AppCompatActivity {
 
         // Get the Intent that started this activity and extract the string
         Intent intent = getIntent();
-        Bike bike = (Bike) intent.getSerializableExtra(MainActivity.EXTRA_MESSAGE);
+        final Bike bike = (Bike) intent.getSerializableExtra(MainActivity.EXTRA_MESSAGE);
 
         rvDetails = (RecyclerView) findViewById(R.id.recyclerView);
         ImageView imageBike = (ImageView) findViewById(R.id.imageBike);
         TextView nameBike = (TextView) findViewById(R.id.nameBike);
         totalBike = (TextView) findViewById(R.id.totalBike);
         FloatingActionButton buyBike = (FloatingActionButton) findViewById(R.id.buy);
+        FloatingActionButton qrcode = (FloatingActionButton) findViewById(R.id.qrcodeCreate);
+
+        qrcode.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                LayoutInflater inflater = getLayoutInflater();
+                View dialogLayout = inflater.inflate(R.layout.alert_dialog, null);
+
+                ImageView imageView= (ImageView) dialogLayout.findViewById(R.id.selectedImage);
+                imageView.setImageBitmap(getQRcode((int) bike.getId()));
+                new AlertDialog.Builder(BikeActivity.this)
+                        .setView(dialogLayout)
+                        .show();
+            }
+        });
 
         LatLon loc = bike.getLoc();
         Geocoder geocoder = new Geocoder(this, Locale.getDefault());
@@ -137,8 +154,8 @@ public class BikeActivity extends AppCompatActivity {
 
     public Bitmap getQRcode(int data) {
 
-        Bitmap bitmap = Bitmap.createBitmap(150,150, Bitmap.Config.ARGB_8888);
-        QRGEncoder qrgEncoder = new QRGEncoder(Integer.toString(data), null, QRGContents.Type.TEXT, 150);
+        Bitmap bitmap = Bitmap.createBitmap(500,500, Bitmap.Config.ARGB_8888);
+        QRGEncoder qrgEncoder = new QRGEncoder(Integer.toString(data), null, QRGContents.Type.TEXT, 500);
         try {
             // Getting QR-Code as Bitmap
             bitmap = qrgEncoder.encodeAsBitmap();
