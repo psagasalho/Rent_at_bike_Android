@@ -17,8 +17,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import pt.rent_at_bike.app.R;
 import pt.rent_at_bike.app.detail.Detail;
-import pt.rent_at_bike.app.detail.DetailAdapter;
-import pt.rent_at_bike.app.detail.DetailAdapter_2;
+import pt.rent_at_bike.app.detail.DetailAddAdapter;
 
 public class AddFragment extends Fragment {
 
@@ -43,7 +42,7 @@ public class AddFragment extends Fragment {
         imageBike.setImageDrawable(getResources().getDrawable(R.drawable.btwin_hoptown));
 
         // Create adapter passing in the sample user data
-        DetailAdapter_2 adapter = new DetailAdapter_2(details);
+        DetailAddAdapter adapter = new DetailAddAdapter(details);
         // Attach the adapter to the recyclerview to populate items
         rvDetails.setAdapter(adapter);
         // Set layout manager to position the items

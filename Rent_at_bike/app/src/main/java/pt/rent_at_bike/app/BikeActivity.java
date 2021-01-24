@@ -13,14 +13,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.zxing.WriterException;
 
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -33,13 +32,13 @@ import androidx.recyclerview.widget.RecyclerView;
 import pt.rent_at_bike.app.bike.Bike;
 import pt.rent_at_bike.app.bike.LatLon;
 import pt.rent_at_bike.app.detail.Detail;
-import pt.rent_at_bike.app.detail.DetailAdapter;
+import pt.rent_at_bike.app.detail.DetailBikeAdapter;
 
 public class BikeActivity extends AppCompatActivity {
 
     ArrayList<Detail> details = new ArrayList<>();
     public RecyclerView rvDetails;
-    public DetailAdapter adapter;
+    public DetailBikeAdapter adapter;
     public TextView totalBike;
 
     public void setDetails(ArrayList<Detail> details) {
@@ -88,6 +87,19 @@ public class BikeActivity extends AppCompatActivity {
         FloatingActionButton buyBike = (FloatingActionButton) findViewById(R.id.buy);
         FloatingActionButton qrcode = (FloatingActionButton) findViewById(R.id.qrcodeCreate);
 
+        buyBike.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(FirebaseAuth.getInstance().getCurrentUser() != null) {
+                    Intent intent = new Intent(BikeActivity.this, BuyActivity.class);
+                    startActivity(intent);
+                } else {
+                    Intent intent = new Intent(BikeActivity.this, LoginActivity.class);
+                    startActivity(intent);
+                }
+            }
+        });
+
         qrcode.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -133,7 +145,7 @@ public class BikeActivity extends AppCompatActivity {
         totalBike.setText("Total: "+ days*bike.getPrice() +"€");
 
         // Create adapter passing in the sample user data
-        adapter = new DetailAdapter(details);
+        adapter = new DetailBikeAdapter(details);
         // Attach the adapter to the recyclerview to populate items
         rvDetails.setAdapter(adapter);
         // Set layout manager to position the items
@@ -142,14 +154,28 @@ public class BikeActivity extends AppCompatActivity {
         // That's all!
 
         ImageView imgFavorite = (ImageView) findViewById(R.id.login);
-        imgFavorite.setClickable(true);
-        imgFavorite.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(BikeActivity.this, LoginActivity.class);
-                startActivity(intent);
-            }
-        });
+
+        if (FirebaseAuth.getInstance().getCurrentUser() != null) {
+            imgFavorite.setImageResource(R.drawable.profilegreen);
+            imgFavorite.setClickable(true);
+            imgFavorite.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(BikeActivity.this, ProfileActivity.class);
+                    startActivity(intent);
+                }
+            });
+        } else {
+            imgFavorite.setImageResource(R.drawable.profilered);
+            imgFavorite.setClickable(true);
+            imgFavorite.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(BikeActivity.this, LoginActivity.class);
+                    startActivity(intent);
+                }
+            });
+        }
     }
 
     public Bitmap getQRcode(int data) {

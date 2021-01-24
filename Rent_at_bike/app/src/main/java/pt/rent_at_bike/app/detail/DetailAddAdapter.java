@@ -16,8 +16,8 @@ import pt.rent_at_bike.app.R;
 
 // Create the basic adapter extending from RecyclerView.Adapter
 // Note that we specify the custom ViewHolder which gives us access to our views
-public class DetailAdapter_2 extends
-        RecyclerView.Adapter<DetailAdapter_2.ViewHolder> {
+public class DetailAddAdapter extends
+        RecyclerView.Adapter<DetailAddAdapter.ViewHolder> {
 
     // Provide a direct reference to each of the views within a data item
     // Used to cache the views within the item layout for fast access
@@ -46,7 +46,7 @@ public class DetailAdapter_2 extends
     private Context context;
 
     // Pass in the contact array into the constructor
-    public DetailAdapter_2(List<Detail> details) {
+    public DetailAddAdapter(List<Detail> details) {
         mDetails = details;
     }
 
@@ -57,7 +57,7 @@ public class DetailAdapter_2 extends
         LayoutInflater inflater = LayoutInflater.from(context);
 
         // Inflate the custom layout
-        View detailView = inflater.inflate(R.layout.fragment_detail, parent, false);
+        View detailView = inflater.inflate(R.layout.fragment_add_detail, parent, false);
 
         // Return a new holder instance
         ViewHolder viewHolder = new ViewHolder(detailView);

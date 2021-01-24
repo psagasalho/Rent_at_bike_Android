@@ -11,12 +11,13 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 
 public class ProfileActivity extends AppCompatActivity {
 
     private EditText email;
-    private Button logout;
+    private FloatingActionButton logout;
     private FirebaseAuth mAuth;
 
     @Override
@@ -25,7 +26,7 @@ public class ProfileActivity extends AppCompatActivity {
         setContentView(R.layout.activity_profile);
 
         email = findViewById(R.id.username);
-        logout = findViewById(R.id.logoutEnter);
+        logout = findViewById(R.id.logout);
 
         mAuth = FirebaseAuth.getInstance();
 

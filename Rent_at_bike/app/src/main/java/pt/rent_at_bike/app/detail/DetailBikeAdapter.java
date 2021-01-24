@@ -6,7 +6,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.time.LocalDate;
 import java.util.Date;
@@ -14,19 +13,15 @@ import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.DialogFragment;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 import pt.rent_at_bike.app.BikeActivity;
 import pt.rent_at_bike.app.DatePickerDialogClass;
-import pt.rent_at_bike.app.LoginActivity;
-import pt.rent_at_bike.app.MainActivity;
 import pt.rent_at_bike.app.R;
 
 // Create the basic adapter extending from RecyclerView.Adapter
 // Note that we specify the custom ViewHolder which gives us access to our views
-public class DetailAdapter extends
-        RecyclerView.Adapter<DetailAdapter.ViewHolder> {
+public class DetailBikeAdapter extends
+        RecyclerView.Adapter<DetailBikeAdapter.ViewHolder> {
 
     // Provide a direct reference to each of the views within a data item
     // Used to cache the views within the item layout for fast access
@@ -57,7 +52,7 @@ public class DetailAdapter extends
     private Context context;
 
     // Pass in the contact array into the constructor
-    public DetailAdapter(List<Detail> details) {
+    public DetailBikeAdapter(List<Detail> details) {
         mDetails = details;
     }
 
@@ -68,7 +63,7 @@ public class DetailAdapter extends
         LayoutInflater inflater = LayoutInflater.from(context);
 
         // Inflate the custom layout
-        View detailView = inflater.inflate(R.layout.fragment_detail_2, parent, false);
+        View detailView = inflater.inflate(R.layout.fragment_bike_detail, parent, false);
 
         // Return a new holder instance
         ViewHolder viewHolder = new ViewHolder(detailView);
