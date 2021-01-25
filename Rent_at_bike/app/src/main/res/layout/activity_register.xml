@@ -41,6 +41,33 @@
         app:srcCompat="@drawable/profile" />
 
     <EditText
+        android:id="@+id/name"
+        android:layout_width="250dp"
+        android:layout_height="45dp"
+        android:layout_marginTop="10dp"
+        android:ems="10"
+        android:hint="Name"
+        android:inputType="textPersonName"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.503"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/username" />
+
+    <EditText
+        android:id="@+id/surname"
+        android:layout_width="250dp"
+        android:layout_height="45dp"
+        android:layout_marginTop="10dp"
+        android:ems="10"
+        android:hint="Surname"
+        android:inputType="textPersonName"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.503"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/name" />
+
+
+    <EditText
         android:id="@+id/username"
         android:layout_width="250dp"
         android:layout_height="45dp"
@@ -54,10 +81,10 @@
         app:layout_constraintTop_toBottomOf="@+id/textView" />
 
     <Button
-        android:id="@+id/loginEnter"
+        android:id="@+id/registerEnter"
         android:layout_width="168dp"
         android:layout_height="52dp"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="20dp"
         android:background="@color/blue"
         android:text="Register"
         android:textColor="@android:color/white"
@@ -70,20 +97,20 @@
         android:id="@+id/password"
         android:layout_width="250dp"
         android:layout_height="45dp"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="10dp"
         android:ems="10"
         android:hint="Password"
         android:inputType="textPassword"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.503"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/username" />
+        app:layout_constraintTop_toBottomOf="@+id/surname" />
 
     <EditText
         android:id="@+id/password2"
         android:layout_width="250dp"
         android:layout_height="45dp"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="10dp"
         android:ems="10"
         android:hint="Confirm Password"
         android:inputType="textPassword"

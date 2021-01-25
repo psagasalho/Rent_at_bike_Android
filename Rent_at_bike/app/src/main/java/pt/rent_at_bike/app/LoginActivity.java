@@ -22,6 +22,7 @@ public class LoginActivity extends AppCompatActivity {
     private EditText email;
     private EditText password;
     private Button login;
+    private Button register;
     private FirebaseAuth mAuth;
 
     @Override
@@ -32,6 +33,7 @@ public class LoginActivity extends AppCompatActivity {
         email = findViewById(R.id.username);
         password = findViewById(R.id.password);
         login = findViewById(R.id.loginEnter);
+        register = findViewById(R.id.registerEnter);
 
         mAuth = FirebaseAuth.getInstance();
 
@@ -48,7 +50,14 @@ public class LoginActivity extends AppCompatActivity {
                 }
             }
         });
-
+        register.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(LoginActivity.this , RegisterActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+            }
+        });
     }
 
     private void loginUser(String email, String password) {
@@ -57,8 +66,7 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()){
-                    Toast.makeText(LoginActivity.this, "Update the profile " +
-                            "for better expereince", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(LoginActivity.this, "Login successfully done!", Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(LoginActivity.this , MainActivity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     startActivity(intent);
