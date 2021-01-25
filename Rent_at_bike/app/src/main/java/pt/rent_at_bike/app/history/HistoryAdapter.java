@@ -81,7 +81,7 @@ public class HistoryAdapter extends
         i_bikeID.setText(Long.toString(history.getBikeID()));
 
         TextView i_price = holder.price;
-        i_price.setText(Long.toString(history.getPriceTotal()));
+        i_price.setText(Long.toString(history.getPriceTotal())+"€");
 
         TextView i_begin = holder.begin;
         i_begin.setText(history.getStart().toString());

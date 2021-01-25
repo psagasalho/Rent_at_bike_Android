@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="75dp"
+    android:layout_height="65dp"
     android:gravity="center_vertical"
     android:orientation="horizontal"
     android:paddingLeft="0dp"
@@ -13,30 +13,31 @@
 
     <TextView
         android:id="@+id/textDetail2"
-        android:layout_width="80dp"
+        android:layout_width="65dp"
         android:layout_height="20dp"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="10dp"
         android:layout_weight="1"
         android:gravity="center_vertical"
-        android:paddingStart="10dp"
+        android:paddingStart="0dp"
         android:text="Begining:"
         android:textAlignment="textEnd"
         android:textAllCaps="false"
         android:textColor="@android:color/black"
         android:textSize="14sp"
+        android:textStyle="bold"
         app:layout_constraintEnd_toStartOf="@+id/begin"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/begin"
-        android:layout_width="90dp"
+        android:layout_width="80dp"
         android:layout_height="20dp"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="10dp"
         android:layout_weight="10"
         android:gravity="center_vertical"
-        android:paddingStart="10dp"
+        android:paddingStart="3dp"
         android:text="11-12-2020"
-        android:textAlignment="textStart"
+        android:textAlignment="textEnd"
         android:textAllCaps="false"
         android:textColor="@android:color/black"
         android:textSize="14sp"
@@ -45,79 +46,110 @@
 
     <TextView
         android:id="@+id/textDetail3"
-        android:layout_width="80dp"
+        android:layout_width="65dp"
         android:layout_height="20dp"
-        android:layout_marginBottom="15dp"
         android:layout_weight="1"
         android:gravity="center_vertical"
-        android:paddingStart="10dp"
+        android:paddingStart="0dp"
         android:text="End:"
         android:textAlignment="textEnd"
         android:textAllCaps="false"
         android:textColor="@android:color/black"
         android:textSize="14sp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:textStyle="bold"
         app:layout_constraintEnd_toStartOf="@+id/end"
         app:layout_constraintTop_toBottomOf="@+id/textDetail2" />
 
     <TextView
         android:id="@+id/end"
-        android:layout_width="90dp"
+        android:layout_width="80dp"
         android:layout_height="20dp"
-        android:layout_marginBottom="15dp"
         android:layout_weight="1"
         android:gravity="center_vertical"
-        android:paddingStart="10dp"
-        android:textAlignment="textStart"
+        android:text="12-12-2020"
+        android:textAlignment="textEnd"
         android:textAllCaps="false"
         android:textColor="@android:color/black"
         android:textSize="14sp"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textDetail2"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintTop_toBottomOf="@+id/textDetail2" />
 
     <TextView
         android:id="@+id/histID"
-        android:layout_width="wrap_content"
-        android:layout_height="30dp"
-        android:layout_marginStart="10dp"
+        android:layout_width="30dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
         android:layout_weight="1"
         android:gravity="center_vertical"
         android:text="04"
-        android:textAlignment="textEnd"
+        android:textAlignment="center"
         android:textColor="@android:color/black"
         android:textSize="18sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.488" />
+        app:layout_constraintEnd_toStartOf="@+id/bikeID"
+        app:layout_constraintTop_toBottomOf="@+id/textView5" />
 
     <TextView
         android:id="@+id/bikeID"
-        android:layout_width="wrap_content"
+        android:layout_width="60dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="12dp"
-        android:text="Bike: 05"
+        android:layout_marginEnd="8dp"
+        android:text="05"
+        android:textAlignment="center"
         android:textColor="@android:color/black"
         android:textSize="18sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/histID"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.49" />
+        app:layout_constraintEnd_toStartOf="@+id/price"
+        app:layout_constraintTop_toBottomOf="@+id/textView4" />
 
     <TextView
         android:id="@+id/price"
-        android:layout_width="89dp"
+        android:layout_width="80dp"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="5dp"
-        android:text="Price: 100€"
+        android:layout_marginEnd="8dp"
+        android:text="100€"
+        android:textAlignment="center"
         android:textColor="@android:color/black"
         android:textSize="18sp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/textDetail3"
+        app:layout_constraintTop_toBottomOf="@+id/textView3" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="80dp"
+        android:layout_height="20dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="8dp"
+        android:text="Total Price:"
+        android:textAlignment="center"
+        android:textColor="@android:color/black"
+        android:textStyle="bold"
         app:layout_constraintEnd_toStartOf="@+id/textDetail2"
-        app:layout_constraintStart_toEndOf="@+id/bikeID"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.49" />
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="60dp"
+        android:layout_height="20dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="8dp"
+        android:text="Bike ID:"
+        android:textAlignment="center"
+        android:textColor="@android:color/black"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toStartOf="@+id/textView3"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView5"
+        android:layout_width="30dp"
+        android:layout_height="20dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="8dp"
+        android:text="ID:"
+        android:textAlignment="center"
+        android:textAllCaps="false"
+        android:textColor="@android:color/black"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toStartOf="@+id/textView4"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
