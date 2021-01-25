@@ -61,6 +61,7 @@ public class AddFragment extends Fragment {
         RecyclerView rvDetails = (RecyclerView) root.findViewById(R.id.recyclerView);
         ImageView imageBike = (ImageView) root.findViewById(R.id.imageBike);
         Button buttonAdd = (Button) root.findViewById(R.id.buttonAdd);
+        Button buttonLocation = (Button) root.findViewById(R.id.buttonLocation);
 
         // Initialize contacts
         details.add(new Detail("ic_info","Name"));
@@ -85,10 +86,16 @@ public class AddFragment extends Fragment {
         rvDetails.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
         // That's all!
 
+        buttonLocation.setOnClickListener(new View.OnClickListener() {
+          @Override
+          public void onClick(View view) {
+              location(adapter);
+          }
+        });
+
         buttonAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                location(adapter);
                 if (adapter.tValues.size()==5){
                     Map<String, Object> bikes = new HashMap<>();
                     bikes.put("available", true);

@@ -79,12 +79,13 @@ public class DetailAddAdapter extends
         ImageView iDetail = holder.iconDetail;
         iDetail.setImageDrawable(context.getResources().getDrawable(context.getResources().getIdentifier(detail.getIcon(), "drawable", context.getPackageName())));
 
-        EditText tDetail = holder.textDetail;
+        final EditText tDetail = holder.textDetail;
         tDetail.setHint(detail.getName());
+        tDetail.setText(tValues.get(position));
         tDetail.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                //blank
+
             }
 
             @Override
