@@ -4,14 +4,14 @@ import java.time.LocalDate;
 
 public class History {
 
-    private int histID;
+    private long histID;
     private String userEmail;
-    private int bikeID;
-    private int priceTotal;
+    private long bikeID;
+    private long priceTotal;
     private LocalDate start;
     private LocalDate stop;
 
-    public History(int histID, String userEmail, int bikeID, int priceTotal, LocalDate start, LocalDate stop) {
+    public History(long histID, String userEmail, long bikeID, long priceTotal, LocalDate start, LocalDate stop) {
         this.histID = histID;
         this.userEmail = userEmail;
         this.bikeID = bikeID;
@@ -20,7 +20,7 @@ public class History {
         this.stop = stop;
     }
 
-    public int getHistID() {
+    public long getHistID() {
         return histID;
     }
 
@@ -28,11 +28,11 @@ public class History {
         return userEmail;
     }
 
-    public int getBikeID() {
+    public long getBikeID() {
         return bikeID;
     }
 
-    public int getPriceTotal() {
+    public long getPriceTotal() {
         return priceTotal;
     }
 

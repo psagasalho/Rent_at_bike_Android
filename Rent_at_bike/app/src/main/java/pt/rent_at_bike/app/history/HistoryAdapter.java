@@ -75,13 +75,13 @@ public class HistoryAdapter extends
 
         // Set item views based on your views and data model
         TextView i_histID = holder.histID;
-        i_histID.setText(Integer.toString(history.getHistID()));
+        i_histID.setText(Long.toString(history.getHistID()));
 
         TextView i_bikeID = holder.bikeID;
-        i_bikeID.setText(Integer.toString(history.getBikeID()));
+        i_bikeID.setText(Long.toString(history.getBikeID()));
 
         TextView i_price = holder.price;
-        i_price.setText(Integer.toString(history.getPriceTotal()));
+        i_price.setText(Long.toString(history.getPriceTotal()));
 
         TextView i_begin = holder.begin;
         i_begin.setText(history.getStart().toString());

@@ -12,6 +12,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import pt.rent_at_bike.app.bike.Bike;
+import pt.rent_at_bike.app.bike.LatLon;
 import pt.rent_at_bike.app.detail.DetailBikeAdapter;
 import pt.rent_at_bike.app.history.History;
 import pt.rent_at_bike.app.history.HistoryAdapter;
@@ -21,7 +24,9 @@ import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.GeoPoint;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
@@ -40,8 +45,10 @@ public class ProfileActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private FirebaseFirestore db;
     private CollectionReference colRefUsers;
+    private CollectionReference colRefHistory;
     public RecyclerView rvDetails;
     public HistoryAdapter adapter;
+    private ArrayList<History> histories = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,8 +64,10 @@ public class ProfileActivity extends AppCompatActivity {
         db = FirebaseFirestore.getInstance();
 
         colRefUsers = db.collection("/users");
+        colRefHistory = db.collection("/history");
 
         fetchCollection();
+        fetchCollectionHistory();
 
         name.setText("");
         name.setFocusable(false);
@@ -78,10 +87,10 @@ public class ProfileActivity extends AppCompatActivity {
 
         rvDetails = (RecyclerView) findViewById(R.id.recyclerView);
 
-        List history = new ArrayList<History>();
-        history.add(new History(2, "rentbike@ua.pt",03,100, LocalDate.now(), LocalDate.now()));
+        /*List history = new ArrayList<History>();
+        history.add(new History(2, "rentbike@ua.pt",03,100, LocalDate.now(), LocalDate.now()));*/
 
-        adapter = new HistoryAdapter(history);
+        adapter = new HistoryAdapter(histories);
         rvDetails.setAdapter(adapter);
         // Set layout manager to position the items
         rvDetails.setLayoutManager(new LinearLayoutManager(this));
@@ -108,5 +117,27 @@ public class ProfileActivity extends AppCompatActivity {
                         }
                     }
                 });
+    }
+
+    private void fetchCollectionHistory() {
+        colRefHistory.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+                    for (DocumentSnapshot document : task.getResult()) {
+                        Map<String,Object> databasehistories = document.getData();
+                        if(databasehistories.get("userEmail").equals(mAuth.getCurrentUser().getEmail())){
+                            histories.add(new History((long)databasehistories.get("histID"),(String)databasehistories.get("userEmail"),(long)databasehistories.get("bikeID"),
+                                    (long)databasehistories.get("priceTotal"),LocalDate.now(), LocalDate.now()));
+
+                            adapter.notifyDataSetChanged();
+                        }
+
+                    }
+                } else {
+                    System.out.println("Error");
+                }
+            }
+        });
     }
 }
