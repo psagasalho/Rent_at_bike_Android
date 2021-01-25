@@ -38,13 +38,10 @@ public class ProfileActivity extends AppCompatActivity {
     private EditText email;
     private FloatingActionButton logout;
     private FirebaseAuth mAuth;
-<<<<<<< HEAD
     private FirebaseFirestore db;
     private CollectionReference colRefUsers;
-=======
     public RecyclerView rvDetails;
     public HistoryAdapter adapter;
->>>>>>> a38da39e8e8f93d016ddee78b2e7b08bf6b43377
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
