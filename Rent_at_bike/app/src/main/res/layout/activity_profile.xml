@@ -104,5 +104,16 @@
         app:srcCompat="@drawable/ic_exit" />
 
 
+<<<<<<< HEAD
+=======
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_width="310dp"
+        android:layout_height="260dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView2" />
+>>>>>>> a38da39e8e8f93d016ddee78b2e7b08bf6b43377
 
 </androidx.constraintlayout.widget.ConstraintLayout>
