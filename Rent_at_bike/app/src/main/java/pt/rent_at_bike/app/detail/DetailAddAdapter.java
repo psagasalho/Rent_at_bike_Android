@@ -1,6 +1,8 @@
 package pt.rent_at_bike.app.detail;
 
 import android.content.Context;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,6 +10,8 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import androidx.annotation.NonNull;
@@ -45,6 +49,8 @@ public class DetailAddAdapter extends
 
     private Context context;
 
+    public HashMap<Integer,String> tValues = new HashMap<>();
+
     // Pass in the contact array into the constructor
     public DetailAddAdapter(List<Detail> details) {
         mDetails = details;
@@ -65,7 +71,7 @@ public class DetailAddAdapter extends
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
         // Get the data model based on position
         Detail detail = mDetails.get(position);
 
@@ -75,6 +81,22 @@ public class DetailAddAdapter extends
 
         EditText tDetail = holder.textDetail;
         tDetail.setHint(detail.getName());
+        tDetail.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                //blank
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                //blank;
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                tValues.put(position,s.toString());
+            }
+        });
 
     }
 
