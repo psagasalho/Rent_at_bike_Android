@@ -63,7 +63,7 @@ public class MapFragment extends Fragment implements View.OnClickListener {
                 googleMap = mMap;
 
                 // For dropping a marker at a point on the Map
-                LatLng sydney = new LatLng(-34, 151);
+                LatLng sydney = new LatLng(41.539516, -6.959003);
                 googleMap.addMarker(new MarkerOptions().position(sydney).title("Marker Title").snippet("Marker Description"));
 
                 // For zooming automatically to the location of the marker
