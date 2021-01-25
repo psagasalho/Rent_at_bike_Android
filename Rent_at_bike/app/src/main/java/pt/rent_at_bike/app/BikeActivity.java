@@ -71,6 +71,8 @@ public class BikeActivity extends AppCompatActivity {
         return stop;
     }
 
+    public static final String EXTRA_MESSAGE = "pt.ua.cm.rent_at_bike.MESSAGE";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -92,6 +94,7 @@ public class BikeActivity extends AppCompatActivity {
             public void onClick(View view) {
                 if(FirebaseAuth.getInstance().getCurrentUser() != null) {
                     Intent intent = new Intent(BikeActivity.this, BuyActivity.class);
+                    intent.putExtra(EXTRA_MESSAGE, bike);
                     startActivity(intent);
                 } else {
                     Intent intent = new Intent(BikeActivity.this, LoginActivity.class);
