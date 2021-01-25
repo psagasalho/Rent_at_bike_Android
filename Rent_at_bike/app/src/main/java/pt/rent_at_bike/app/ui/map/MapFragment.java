@@ -2,12 +2,14 @@ package pt.rent_at_bike.app.ui.map;
 
 import android.Manifest;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
@@ -28,7 +30,11 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
+import androidx.fragment.app.FragmentTransaction;
+import pt.rent_at_bike.app.LoginActivity;
+import pt.rent_at_bike.app.MainActivity;
 import pt.rent_at_bike.app.R;
+import pt.rent_at_bike.app.RegisterActivity;
 
 public class MapFragment extends Fragment implements View.OnClickListener {
 
@@ -43,8 +49,10 @@ public class MapFragment extends Fragment implements View.OnClickListener {
 
         View root = inflater.inflate(R.layout.fragment_map, container, false);
 
-        FloatingActionButton b = (FloatingActionButton) root.findViewById(R.id.floatingActionButton2);
-        b.setOnClickListener(this);
+        FloatingActionButton locationButton = (FloatingActionButton) root.findViewById(R.id.location);
+        locationButton.setOnClickListener(this);
+        FloatingActionButton qrcodeButton = (FloatingActionButton) root.findViewById(R.id.qrcode);
+        qrcodeButton.setOnClickListener(this);
 
         mMapView = (MapView) root.findViewById(R.id.mapView);
         mMapView.onCreate(savedInstanceState);
@@ -74,6 +82,7 @@ public class MapFragment extends Fragment implements View.OnClickListener {
 
         return root;
     }
+
 
     public void location() {
         checkLocationPermission();
@@ -168,8 +177,11 @@ public class MapFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.floatingActionButton2:
+            case R.id.location:
                 location();
+                break;
+            case R.id.qrcode:
+                ((MainActivity) getContext()).scanQRcode();
                 break;
         }
     }

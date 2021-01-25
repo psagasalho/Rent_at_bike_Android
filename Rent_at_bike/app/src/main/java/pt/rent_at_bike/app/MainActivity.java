@@ -60,4 +60,8 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    public void scanQRcode() {
+        Intent intent = new Intent(MainActivity.this, ScanActivity.class);
+        startActivity(intent);
+    }
 }
