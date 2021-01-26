@@ -21,6 +21,7 @@ import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -44,6 +45,7 @@ import androidx.fragment.app.FragmentTransaction;
 import java.util.ArrayList;
 import java.util.Map;
 
+import pt.rent_at_bike.app.BikeActivity;
 import pt.rent_at_bike.app.LoginActivity;
 import pt.rent_at_bike.app.MainActivity;
 import pt.rent_at_bike.app.R;
@@ -62,6 +64,8 @@ public class MapFragment extends Fragment implements View.OnClickListener {
 
     private FirebaseFirestore db;
     private CollectionReference colRefBikes;
+
+    public static final String EXTRA_MESSAGE = "pt.ua.cm.rent_at_bike.MESSAGE";
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -90,39 +94,46 @@ public class MapFragment extends Fragment implements View.OnClickListener {
         mMapView.getMapAsync(new OnMapReadyCallback() {
             @Override
             public void onMapReady(GoogleMap mMap) {
+
                 googleMap = mMap;
-
-                // For dropping a marker at a point on the Map
-                //LatLng sydney = new LatLng(41.539516, -6.959003);
-                //LatLng sydney = new LatLng(38.539516, -7.959003);
                 location();
-
                 colRefBikes.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    ArrayList<Bike> bikes= new ArrayList<Bike>();
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
-                            for (DocumentSnapshot document : task.getResult()) {
-                                Map<String,Object> databasebikes = document.getData();
-                                //System.out.println(document.getId() + "\n" + databasebikes + "\n\n");
+                            for ( DocumentSnapshot document : task.getResult()) {
+                                final Map<String,Object> databasebikes = document.getData();
                                 if((boolean)databasebikes.get("available")== true){
                                     GeoPoint point = (GeoPoint) databasebikes.get("loc");
-                                    LatLon lt = new LatLon(point.getLatitude(),point.getLongitude());
-                                    googleMap.addMarker(new MarkerOptions().position(new LatLng(lt.getLat(),lt.getLon())).title((String)databasebikes.get("name")).snippet((String)databasebikes.get("typebike")));
-
-                                    //Log.e("ListFragment", " new bike added from firestore :::::  " +databasebikes.get("profileImg"));
+                                    final LatLon lt = new LatLon(point.getLatitude(),point.getLongitude());
+                                    bikes.add(new Bike((long)databasebikes.get("id"),(String)databasebikes.get("name"),(String)databasebikes.get("profileImg"),
+                                            (String)databasebikes.get("typebike"),(long)databasebikes.get("price"),lt,(boolean)databasebikes.get("available")));
+                                    googleMap.addMarker(new MarkerOptions().position(new LatLng(lt.getLat(),lt.getLon())));
 
                                 }
-
                             }
+                            googleMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+                                @Override
+                                public boolean onMarkerClick(Marker marker) {
+                                    for(Bike b : bikes){
+                                        if(b.getLoc().getLon()==marker.getPosition().longitude && b.getLoc().getLat()==marker.getPosition().latitude){
+                                            Intent intent = new Intent(getContext(), BikeActivity.class);
+                                            intent.putExtra(EXTRA_MESSAGE, b);
+                                            startActivity(intent);
+
+                                        }
+                                    }
+                                    return true;
+                                }
+                            });
                         } else {
                             System.out.println("Error");
                         }
                     }
                 });
 
-                // For zooming automatically to the location of the marker
-                //CameraPosition cameraPosition = new CameraPosition.Builder().target(sydney).zoom(12).build();
-                //googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+
             }
         });
 
@@ -231,4 +242,5 @@ public class MapFragment extends Fragment implements View.OnClickListener {
                 break;
         }
     }
+
 }
