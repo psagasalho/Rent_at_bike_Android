@@ -85,6 +85,10 @@ public class BikeActivity extends AppCompatActivity {
         return stop;
     }
 
+    public void setPrice(long price) {
+        this.price = price;
+    }
+
     public static final String EXTRA_MESSAGE = "pt.ua.cm.rent_at_bike.MESSAGE";
 
     @Override
@@ -192,7 +196,7 @@ public class BikeActivity extends AppCompatActivity {
             public void onClick(View view) {
                 if(FirebaseAuth.getInstance().getCurrentUser() != null) {
                     String email = FirebaseAuth.getInstance().getCurrentUser().getEmail();
-                    History hist = new History(histories.size()+1, email, bike.getId(), days*bike.getPrice(), getStart(), getStop());
+                    History hist = new History(histories.size()+1, email, bike.getId(), price, start, stop);
                     Intent intent = new Intent(BikeActivity.this, BuyActivity.class);
                     intent.putExtra(EXTRA_MESSAGE, hist);
                     startActivity(intent);

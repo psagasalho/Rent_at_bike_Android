@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,11 +35,16 @@ import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.GeoPoint;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import pt.rent_at_bike.app.BikeActivity;
 import pt.rent_at_bike.app.LoginActivity;
@@ -47,6 +53,7 @@ import pt.rent_at_bike.app.ProfileActivity;
 import pt.rent_at_bike.app.R;
 import pt.rent_at_bike.app.RegisterActivity;
 import pt.rent_at_bike.app.bike.Bike;
+import pt.rent_at_bike.app.bike.LatLon;
 import pt.rent_at_bike.app.detail.Detail;
 import pt.rent_at_bike.app.detail.DetailAddAdapter;
 import pt.rent_at_bike.app.ui.map.MapFragment;
@@ -56,6 +63,9 @@ public class AddFragment extends Fragment {
     public static final int MY_PERMISSIONS_REQUEST_LOCATION = 99;
     private FusedLocationProviderClient fusedLocationClient;
     ArrayList<Detail> details = new ArrayList<>();
+    ArrayList<Bike> bikes = new ArrayList<>();
+    private FirebaseFirestore db;
+    private CollectionReference colRefBikes;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -90,6 +100,10 @@ public class AddFragment extends Fragment {
         rvDetails.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
         // That's all!
 
+        db = FirebaseFirestore.getInstance();
+        colRefBikes = db.collection("/bikes");
+        fetchCollection();
+
         buttonLocation.setOnClickListener(new View.OnClickListener() {
           @Override
           public void onClick(View view) {
@@ -101,24 +115,24 @@ public class AddFragment extends Fragment {
             @Override
             public void onClick(View view) {
 
-                ArrayList<Bike> b = ((MainActivity)getActivity()).getBikes();
-
                 if (adapter.tValues.size()==5){
-                    Map<String, Object> bikes = new HashMap<>();
-                    bikes.put("available", true);
-                    bikes.put("id", b.size()+1);
-                    bikes.put("loc", new GeoPoint(Double.parseDouble(adapter.tValues.get(3)),Double.parseDouble(adapter.tValues.get(4))));
-                    bikes.put("name", adapter.tValues.get(0));
-                    bikes.put("price", Long.parseLong(adapter.tValues.get(2)));
-                    bikes.put("profileImg", "rockrider_e_st");
-                    bikes.put("typebike", adapter.tValues.get(1));
+                    Map<String, Object> b = new HashMap<>();
+                    b.put("available", true);
+                    b.put("id", bikes.size()+1);
+                    b.put("loc", new GeoPoint(Double.parseDouble(adapter.tValues.get(3)),Double.parseDouble(adapter.tValues.get(4))));
+                    b.put("name", adapter.tValues.get(0));
+                    b.put("price", Long.parseLong(adapter.tValues.get(2)));
+                    b.put("profileImg", "rockrider_e_st");
+                    b.put("typebike", adapter.tValues.get(1));
 
                     // Add a new document with a generated ID
                     FirebaseFirestore.getInstance().collection("/bikes")
-                            .add(bikes)
+                            .add(b)
                             .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                                 @Override
                                 public void onSuccess(DocumentReference documentReference) {
+                                    Intent intent = new Intent(getContext(), MainActivity.class);
+                                    startActivity(intent);
                                     Toast.makeText(getActivity(), "Bike added successfully!", Toast.LENGTH_SHORT).show();
                                 }
                             })
@@ -201,5 +215,27 @@ public class AddFragment extends Fragment {
                         }
                     });
         }
+    }
+
+    private void fetchCollection() {
+        colRefBikes.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+                    for (DocumentSnapshot document : task.getResult()) {
+                        Map<String,Object> databasebikes = document.getData();
+                        System.out.println(document.getId() + "\n" + databasebikes + "\n\n");
+                        GeoPoint point = (GeoPoint) databasebikes.get("loc");
+                        LatLon lt = new LatLon(point.getLatitude(),point.getLongitude());
+                        bikes.add(new Bike((long)databasebikes.get("id"),(String)databasebikes.get("name"),(String)databasebikes.get("profileImg"),
+                                (String)databasebikes.get("typebike"),(long)databasebikes.get("price"),lt,(boolean)databasebikes.get("available")));
+
+                        Log.e("ListFragment", " new bike added from firestore :::::  " +databasebikes.get("profileImg"));
+                    }
+                } else {
+                    System.out.println("Error");
+                }
+            }
+        });
     }
 }

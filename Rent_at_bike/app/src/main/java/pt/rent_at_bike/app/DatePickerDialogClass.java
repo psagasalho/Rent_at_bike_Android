@@ -62,5 +62,6 @@ public class DatePickerDialogClass extends DialogFragment implements DatePickerD
         ((BikeActivity)getActivity()).adapter.notifyDataSetChanged();
         long days = ChronoUnit.DAYS.between(((BikeActivity) getActivity()).getStart(), ((BikeActivity) getActivity()).getStop());
         ((BikeActivity)getActivity()).totalBike.setText("Total: "+ days*((BikeActivity)getActivity()).price +"€");
+        ((BikeActivity)getActivity()).setPrice(days*((BikeActivity)getActivity()).price);
     }
 }
