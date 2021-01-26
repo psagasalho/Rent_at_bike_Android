@@ -93,9 +93,11 @@ public class BikeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_bike);
 
         mAuth = FirebaseAuth.getInstance();
-        db = FirebaseFirestore.getInstance();
-        colRefHistory = db.collection("/history");
-        fetchCollectionHistory();
+        if (mAuth.getCurrentUser() != null) {
+            db = FirebaseFirestore.getInstance();
+            colRefHistory = db.collection("/history");
+            fetchCollectionHistory();
+        }
 
         // Get the Intent that started this activity and extract the string
         Intent intent = getIntent();
