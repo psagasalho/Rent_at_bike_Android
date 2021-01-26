@@ -24,6 +24,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -39,10 +40,13 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.GeoPoint;
 
+import pt.rent_at_bike.app.BikeActivity;
+import pt.rent_at_bike.app.LoginActivity;
 import pt.rent_at_bike.app.MainActivity;
 import pt.rent_at_bike.app.ProfileActivity;
 import pt.rent_at_bike.app.R;
 import pt.rent_at_bike.app.RegisterActivity;
+import pt.rent_at_bike.app.bike.Bike;
 import pt.rent_at_bike.app.detail.Detail;
 import pt.rent_at_bike.app.detail.DetailAddAdapter;
 import pt.rent_at_bike.app.ui.map.MapFragment;
@@ -96,10 +100,13 @@ public class AddFragment extends Fragment {
         buttonAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                ArrayList<Bike> b = ((MainActivity)getActivity()).getBikes();
+
                 if (adapter.tValues.size()==5){
                     Map<String, Object> bikes = new HashMap<>();
                     bikes.put("available", true);
-                    bikes.put("id", 9);
+                    bikes.put("id", b.size()+1);
                     bikes.put("loc", new GeoPoint(Double.parseDouble(adapter.tValues.get(3)),Double.parseDouble(adapter.tValues.get(4))));
                     bikes.put("name", adapter.tValues.get(0));
                     bikes.put("price", Long.parseLong(adapter.tValues.get(2)));
@@ -124,7 +131,6 @@ public class AddFragment extends Fragment {
                 }else{
                     Toast.makeText(getActivity(), "Empty Parameters!", Toast.LENGTH_SHORT).show();
                 }
-
             }
         });
 

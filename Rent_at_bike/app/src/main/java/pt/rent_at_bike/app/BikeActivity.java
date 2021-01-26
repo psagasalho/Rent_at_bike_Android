@@ -12,8 +12,14 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.google.zxing.WriterException;
 
 import java.io.IOException;
@@ -22,9 +28,11 @@ import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 import androidmads.library.qrgenearator.QRGContents;
 import androidmads.library.qrgenearator.QRGEncoder;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -33,6 +41,7 @@ import pt.rent_at_bike.app.bike.Bike;
 import pt.rent_at_bike.app.bike.LatLon;
 import pt.rent_at_bike.app.detail.Detail;
 import pt.rent_at_bike.app.detail.DetailBikeAdapter;
+import pt.rent_at_bike.app.history.History;
 
 public class BikeActivity extends AppCompatActivity {
 
@@ -54,6 +63,11 @@ public class BikeActivity extends AppCompatActivity {
     public LocalDate start = localDate;
     public LocalDate stop = localDate.plusDays(1);
     public long price;
+
+    private FirebaseAuth mAuth;
+    private FirebaseFirestore db;
+    private CollectionReference colRefHistory;
+    private ArrayList<History> histories = new ArrayList<>();
 
     public void setStart(LocalDate start) {
         this.start = start;
@@ -78,6 +92,11 @@ public class BikeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bike);
 
+        mAuth = FirebaseAuth.getInstance();
+        db = FirebaseFirestore.getInstance();
+        colRefHistory = db.collection("/history");
+        fetchCollectionHistory();
+
         // Get the Intent that started this activity and extract the string
         Intent intent = getIntent();
         final Bike bike = (Bike) intent.getSerializableExtra(MainActivity.EXTRA_MESSAGE);
@@ -88,20 +107,6 @@ public class BikeActivity extends AppCompatActivity {
         totalBike = (TextView) findViewById(R.id.totalBike);
         FloatingActionButton buyBike = (FloatingActionButton) findViewById(R.id.buy);
         FloatingActionButton qrcode = (FloatingActionButton) findViewById(R.id.qrcodeCreate);
-
-        buyBike.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(FirebaseAuth.getInstance().getCurrentUser() != null) {
-                    Intent intent = new Intent(BikeActivity.this, BuyActivity.class);
-                    intent.putExtra(EXTRA_MESSAGE, bike);
-                    startActivity(intent);
-                } else {
-                    Intent intent = new Intent(BikeActivity.this, LoginActivity.class);
-                    startActivity(intent);
-                }
-            }
-        });
 
         qrcode.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -179,6 +184,22 @@ public class BikeActivity extends AppCompatActivity {
                 }
             });
         }
+
+        buyBike.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(FirebaseAuth.getInstance().getCurrentUser() != null) {
+                    String email = FirebaseAuth.getInstance().getCurrentUser().getEmail();
+                    History hist = new History(histories.size()+1, email, bike.getId(), days*bike.getPrice(), getStart(), getStop());
+                    Intent intent = new Intent(BikeActivity.this, BuyActivity.class);
+                    intent.putExtra(EXTRA_MESSAGE, hist);
+                    startActivity(intent);
+                } else {
+                    Intent intent = new Intent(BikeActivity.this, LoginActivity.class);
+                    startActivity(intent);
+                }
+            }
+        });
     }
 
     public Bitmap getQRcode(int data) {
@@ -190,6 +211,28 @@ public class BikeActivity extends AppCompatActivity {
             bitmap = qrgEncoder.encodeAsBitmap();
         } catch (WriterException e) {}
         return bitmap;
+    }
+
+    private void fetchCollectionHistory() {
+        colRefHistory.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+                    for (DocumentSnapshot document : task.getResult()) {
+                        Map<String,Object> databasehistories = document.getData();
+                        if(databasehistories.get("userEmail").equals(mAuth.getCurrentUser().getEmail())){
+                            histories.add(new History((long)databasehistories.get("histID"),(String)databasehistories.get("userEmail"),(long)databasehistories.get("bikeID"),
+                                    (long)databasehistories.get("priceTotal"),LocalDate.now(), LocalDate.now()));
+
+                            adapter.notifyDataSetChanged();
+                        }
+
+                    }
+                } else {
+                    System.out.println("Error");
+                }
+            }
+        });
     }
 
 }

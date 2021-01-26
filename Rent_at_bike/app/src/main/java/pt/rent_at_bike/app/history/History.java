@@ -1,8 +1,9 @@
 package pt.rent_at_bike.app.history;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 
-public class History {
+public class History implements Serializable {
 
     private long histID;
     private String userEmail;

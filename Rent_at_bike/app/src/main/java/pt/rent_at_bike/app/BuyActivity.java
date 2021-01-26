@@ -27,6 +27,7 @@ import java.util.Map;
 
 import pt.rent_at_bike.app.bike.Bike;
 import pt.rent_at_bike.app.bike.LatLon;
+import pt.rent_at_bike.app.history.History;
 
 public class BuyActivity extends AppCompatActivity {
 
@@ -40,22 +41,22 @@ public class BuyActivity extends AppCompatActivity {
 
         // Get the Intent that started this activity and extract the string
         Intent intent = getIntent();
-        final Bike bike = (Bike) intent.getSerializableExtra(MainActivity.EXTRA_MESSAGE);
+        final History hist = (History) intent.getSerializableExtra(MainActivity.EXTRA_MESSAGE);
 
         db = FirebaseFirestore.getInstance();
         colRefBikes = db.collection("/bikes");
 
-        Map<String, Object> bikes = new HashMap<>();
-        bikes.put("bikeID", bike.getId());
-        bikes.put("histID", 2);
-        bikes.put("priceTotal", bike.getPrice());
-        bikes.put("start", "1");
-        bikes.put("stop", "2");
-        bikes.put("userEmail", FirebaseAuth.getInstance().getCurrentUser().getEmail());
+        Map<String, Object> history = new HashMap<>();
+        history.put("bikeID", hist.getBikeID());
+        history.put("histID", hist.getHistID());
+        history.put("priceTotal", hist.getPriceTotal());
+        history.put("start", hist.getStart().toString());
+        history.put("stop", hist.getStop().toString());
+        history.put("userEmail", hist.getUserEmail());
 
         // Add a new document with a generated ID
         FirebaseFirestore.getInstance().collection("/history")
-                .add(bikes)
+                .add(history)
                 .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                     @Override
                     public void onSuccess(DocumentReference documentReference) {
@@ -83,7 +84,7 @@ public class BuyActivity extends AppCompatActivity {
                     for (DocumentSnapshot document : task.getResult()) {
                         Map<String,Object> databasebikes = document.getData();
                         System.out.println(document.getId() + "\n" + databasebikes + "\n\n");
-                        if((long)databasebikes.get("id")== bike.getId()){
+                        if((long)databasebikes.get("id")== hist.getBikeID()){
                             DocumentReference ref = FirebaseFirestore.getInstance().collection("/bikes").document(document.getId());
                             ref.update("available", false ).addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override
