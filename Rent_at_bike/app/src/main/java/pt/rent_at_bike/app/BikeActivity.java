@@ -24,6 +24,7 @@ import com.google.zxing.WriterException;
 
 import java.io.IOException;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
@@ -226,9 +227,16 @@ public class BikeActivity extends AppCompatActivity {
                 if (task.isSuccessful()) {
                     for (DocumentSnapshot document : task.getResult()) {
                         Map<String,Object> databasehistories = document.getData();
+                        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-d");
+                        LocalDate start = LocalDate.now();
+                        LocalDate stop = LocalDate.now();
+                        try {
+                            start = LocalDate.parse((CharSequence) databasehistories.get("start"), formatter);
+                            stop = LocalDate.parse((CharSequence) databasehistories.get("stop"), formatter);
+                        } catch(Exception e) {}
                         if(databasehistories.get("userEmail").equals(mAuth.getCurrentUser().getEmail())){
                             histories.add(new History((long)databasehistories.get("histID"),(String)databasehistories.get("userEmail"),(long)databasehistories.get("bikeID"),
-                                    (long)databasehistories.get("priceTotal"),LocalDate.now(), LocalDate.now()));
+                                    (long)databasehistories.get("priceTotal"),start, stop));
 
                             adapter.notifyDataSetChanged();
                         }

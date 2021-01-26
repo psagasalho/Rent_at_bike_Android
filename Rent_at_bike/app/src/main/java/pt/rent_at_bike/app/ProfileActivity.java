@@ -30,6 +30,9 @@ import com.google.firebase.firestore.GeoPoint;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.time.format.DateTimeFormatter;
+import java.util.Arrays;
+import java.util.Comparator;
 import java.util.Map;
 
 import java.time.LocalDate;
@@ -90,6 +93,7 @@ public class ProfileActivity extends AppCompatActivity {
         /*List history = new ArrayList<History>();
         history.add(new History(2, "rentbike@ua.pt",03,100, LocalDate.now(), LocalDate.now()));*/
 
+        histories.sort(Comparator.comparing(History::getHistID).reversed());
         adapter = new HistoryAdapter(histories);
         rvDetails.setAdapter(adapter);
         // Set layout manager to position the items
@@ -126,9 +130,16 @@ public class ProfileActivity extends AppCompatActivity {
                 if (task.isSuccessful()) {
                     for (DocumentSnapshot document : task.getResult()) {
                         Map<String,Object> databasehistories = document.getData();
+                        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+                        LocalDate start = LocalDate.now();
+                        LocalDate stop = LocalDate.now();
+                        try {
+                            start = LocalDate.parse((CharSequence) databasehistories.get("start"), formatter);
+                            stop = LocalDate.parse((CharSequence) databasehistories.get("stop"), formatter);
+                        } catch(Exception e) {}
                         if(databasehistories.get("userEmail").equals(mAuth.getCurrentUser().getEmail())){
                             histories.add(new History((long)databasehistories.get("histID"),(String)databasehistories.get("userEmail"),(long)databasehistories.get("bikeID"),
-                                    (long)databasehistories.get("priceTotal"),LocalDate.now(), LocalDate.now()));
+                                    (long)databasehistories.get("priceTotal"),start, stop));
 
                             adapter.notifyDataSetChanged();
                         }

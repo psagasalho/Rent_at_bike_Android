@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Map;
 
 import androidx.annotation.NonNull;
@@ -34,6 +35,7 @@ import pt.rent_at_bike.app.bike.BikeAdapter;
 import pt.rent_at_bike.app.bike.Bike;
 import pt.rent_at_bike.app.bike.LatLon;
 import pt.rent_at_bike.app.R;
+import pt.rent_at_bike.app.history.History;
 
 public class ListFragment extends Fragment {
 
@@ -53,6 +55,7 @@ public class ListFragment extends Fragment {
         RecyclerView rvBikes = (RecyclerView) root.findViewById(R.id.rvBikes);
 
         // Create adapter passing in the sample user data
+        bikes.sort(Comparator.comparing(Bike::getId));
         adapter = new BikeAdapter(bikes);
         // Attach the adapter to the recyclerview to populate items
         rvBikes.setAdapter(adapter);
