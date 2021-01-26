@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,8 +22,15 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.GeoPoint;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
@@ -30,11 +38,19 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
+import androidx.fragment.app.FragmentStatePagerAdapter;
 import androidx.fragment.app.FragmentTransaction;
+
+import java.util.ArrayList;
+import java.util.Map;
+
 import pt.rent_at_bike.app.LoginActivity;
 import pt.rent_at_bike.app.MainActivity;
 import pt.rent_at_bike.app.R;
 import pt.rent_at_bike.app.RegisterActivity;
+import pt.rent_at_bike.app.bike.Bike;
+import pt.rent_at_bike.app.bike.BikeAdapter;
+import pt.rent_at_bike.app.bike.LatLon;
 
 public class MapFragment extends Fragment implements View.OnClickListener {
 
@@ -44,10 +60,16 @@ public class MapFragment extends Fragment implements View.OnClickListener {
     public static final int MY_PERMISSIONS_REQUEST_LOCATION = 99;
     private FusedLocationProviderClient fusedLocationClient;
 
+    private FirebaseFirestore db;
+    private CollectionReference colRefBikes;
+
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
         View root = inflater.inflate(R.layout.fragment_map, container, false);
+
+        db = FirebaseFirestore.getInstance();
+        colRefBikes = db.collection("/bikes");
 
         FloatingActionButton locationButton = (FloatingActionButton) root.findViewById(R.id.location);
         locationButton.setOnClickListener(this);
@@ -71,12 +93,36 @@ public class MapFragment extends Fragment implements View.OnClickListener {
                 googleMap = mMap;
 
                 // For dropping a marker at a point on the Map
-                LatLng sydney = new LatLng(41.539516, -6.959003);
-                googleMap.addMarker(new MarkerOptions().position(sydney).title("Marker Title").snippet("Marker Description"));
+                //LatLng sydney = new LatLng(41.539516, -6.959003);
+                //LatLng sydney = new LatLng(38.539516, -7.959003);
+                location();
+
+                colRefBikes.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (DocumentSnapshot document : task.getResult()) {
+                                Map<String,Object> databasebikes = document.getData();
+                                //System.out.println(document.getId() + "\n" + databasebikes + "\n\n");
+                                if((boolean)databasebikes.get("available")== true){
+                                    GeoPoint point = (GeoPoint) databasebikes.get("loc");
+                                    LatLon lt = new LatLon(point.getLatitude(),point.getLongitude());
+                                    googleMap.addMarker(new MarkerOptions().position(new LatLng(lt.getLat(),lt.getLon())).title((String)databasebikes.get("name")).snippet((String)databasebikes.get("typebike")));
+
+                                    //Log.e("ListFragment", " new bike added from firestore :::::  " +databasebikes.get("profileImg"));
+
+                                }
+
+                            }
+                        } else {
+                            System.out.println("Error");
+                        }
+                    }
+                });
 
                 // For zooming automatically to the location of the marker
-                CameraPosition cameraPosition = new CameraPosition.Builder().target(sydney).zoom(12).build();
-                googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+                //CameraPosition cameraPosition = new CameraPosition.Builder().target(sydney).zoom(12).build();
+                //googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
             }
         });
 
