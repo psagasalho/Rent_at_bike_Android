@@ -39,6 +39,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -114,36 +115,40 @@ public class AddFragment extends Fragment {
         buttonAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if (FirebaseAuth.getInstance().getCurrentUser() != null) {
+                    if (adapter.tValues.size() == 5) {
+                        Map<String, Object> b = new HashMap<>();
+                        b.put("available", true);
+                        b.put("id", bikes.size() + 1);
+                        b.put("loc", new GeoPoint(Double.parseDouble(adapter.tValues.get(3)), Double.parseDouble(adapter.tValues.get(4))));
+                        b.put("name", adapter.tValues.get(0));
+                        b.put("price", Long.parseLong(adapter.tValues.get(2)));
+                        b.put("profileImg", "rockrider_e_st");
+                        b.put("typebike", adapter.tValues.get(1));
 
-                if (adapter.tValues.size()==5){
-                    Map<String, Object> b = new HashMap<>();
-                    b.put("available", true);
-                    b.put("id", bikes.size()+1);
-                    b.put("loc", new GeoPoint(Double.parseDouble(adapter.tValues.get(3)),Double.parseDouble(adapter.tValues.get(4))));
-                    b.put("name", adapter.tValues.get(0));
-                    b.put("price", Long.parseLong(adapter.tValues.get(2)));
-                    b.put("profileImg", "rockrider_e_st");
-                    b.put("typebike", adapter.tValues.get(1));
-
-                    // Add a new document with a generated ID
-                    FirebaseFirestore.getInstance().collection("/bikes")
-                            .add(b)
-                            .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                                @Override
-                                public void onSuccess(DocumentReference documentReference) {
-                                    Intent intent = new Intent(getContext(), MainActivity.class);
-                                    startActivity(intent);
-                                    Toast.makeText(getActivity(), "Bike added successfully!", Toast.LENGTH_SHORT).show();
-                                }
-                            })
-                            .addOnFailureListener(new OnFailureListener() {
-                                @Override
-                                public void onFailure(@NonNull Exception e) {
-                                    System.out.println("ERROR");
-                                }
-                            });
+                        // Add a new document with a generated ID
+                        FirebaseFirestore.getInstance().collection("/bikes")
+                                .add(b)
+                                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                                    @Override
+                                    public void onSuccess(DocumentReference documentReference) {
+                                        Intent intent = new Intent(getContext(), MainActivity.class);
+                                        startActivity(intent);
+                                        Toast.makeText(getActivity(), "Bike added successfully!", Toast.LENGTH_SHORT).show();
+                                    }
+                                })
+                                .addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                        System.out.println("ERROR");
+                                    }
+                                });
+                    } else {
+                        Toast.makeText(getActivity(), "Empty Parameters!", Toast.LENGTH_SHORT).show();
+                    }
                 }else{
-                    Toast.makeText(getActivity(), "Empty Parameters!", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(getContext(), LoginActivity.class);
+                    startActivity(intent);
                 }
             }
         });
