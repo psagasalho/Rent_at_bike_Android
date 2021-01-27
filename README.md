@@ -22,7 +22,7 @@ Rent@Bike’s main objective is to provide the user with an intuitive app, that 
 	•	Historic: With this page, you have access to all the rentals you have made.
 	•	List: A list of all the bikes available for rent nearby.  
 	•	Map: A map of the user location, with all the bikes that available for rent nearby.  
-	•	Share: You can share a bike you saw with your friends, just by sending the bike's qrcode.
+	•	Fast Sharing: You can share a bike you saw with your friends, just by sending the bike's qrcode.
 
 ## Sensors & mobile functionalities
 	•	Map: It will be used to display the location of the bikes that are available to be rented.
