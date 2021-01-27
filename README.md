@@ -26,6 +26,6 @@ Rent@Bike’s main objective is to provide the user with an intuitive app, that 
 
 ## Sensors & mobile functionalities
 	•	Map: It will be used to display the location of the bikes that are available to be rented.
-	•	GPS: It will be used to determine the user location to determine which bikes are closest and the bike location so that the owner knows where his bike is.
+	•	GPS: It will be used to determine the user location to determine which bikes are closest.
 	•	QR Code: Code identifying the bikes in the system. It can be shared with other users for faster access to the bike in question.
-	•	Camera: Used to take pictures regarding the bike rental experience. It is also used to read the QR Codes to access a specific bike.
+	•	Camera: Used to read the QR Codes to access a specific bike.
